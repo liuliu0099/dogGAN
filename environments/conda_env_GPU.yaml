@@ -1,0 +1,29 @@
+name: UR2022_animal-GPU
+dependencies:
+# python
+  - defaults::python=3.7
+  - defaults::ipython
+  - defaults::pip
+# conda
+  - defaults::conda
+  - defaults::jupyter
+  - defaults::nb_conda
+# CUDA
+  - defaults::cudatoolkit=10.0
+  - defaults::cudnn=7.6
+  
+  - defaults::opencv=4.5.5
+  - pip:
+    - "tensorflow-gpu==1.15"
+    - "glob2==0.7"
+    - "keras==2.2.4"
+    - "scipy==1.7.3"
+    - "cython==0.29.32"
+    - "matplotlib==3.3.4"
+    - "pillow==9.2.0"
+    - "pycocotools==2.0.4"
+    - "h5py==2.10.0"
+    - "imgaug==0.4.0"
+    - "pyyaml==5.3"
+    - "scikit-image==0.17.2"
+    - "protobuf==3.20.0"
