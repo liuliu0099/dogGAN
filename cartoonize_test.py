@@ -35,6 +35,8 @@ def test(checkpoint_dir, style_name, test_dir, if_adjust_brightness, img_size=[2
     result_dir = './'+style_name
     check_folder(result_dir)
     test_files = glob('{}/*.*'.format(test_dir))
+    
+    tf.reset_default_graph()
 
     test_real = tf.placeholder(tf.float32, [1, None, None, 3], name='test')
 

@@ -13,6 +13,22 @@
             "justMyCode": true
         },
         {
+            "name": "test",
+            "type": "python",
+            "request": "launch",
+            "program": "test.py",
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
+            "name": "train_animal_detection_model",
+            "type": "python",
+            "request": "launch",
+            "program": "train_animal_detection_model.py",
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
             "name": "cartoonize_background",
             "type": "python",
             "request": "launch",
