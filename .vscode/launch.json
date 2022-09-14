@@ -1,0 +1,44 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: Current File",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
+            "name": "cartoonize_Hayao_test",
+            "type": "python",
+            "request": "launch",
+            "program": "cartoonize_test.py",
+            "console": "integratedTerminal",
+            "justMyCode": true, 
+            "args": 
+            [
+                "--checkpoint_dir", "./model/animeGAN/cartoonize_Hayao_weight", 
+                "--test_dir", "./images/real_background_image", 
+                "--save_dir", "./images/anime_background_image"
+            ]
+        },
+        {
+            "name": "cartoonize_Shinkai_test",
+            "type": "python",
+            "request": "launch",
+            "program": "cartoonize_test.py",
+            "console": "integratedTerminal",
+            "justMyCode": true, 
+            "args": 
+            [
+                "--checkpoint_dir", "./model/animeGAN/cartoonize_Shinkai_weight",
+                "--test_dir", "./images/real_animal_image", 
+                "--save_dir", "./images/anime_animal_image"
+            ]
+        }
+    ]
+}
