@@ -10,28 +10,9 @@ import cv2
 import time
 from mrcnn.config import Config
 from datetime import datetime
-# Root directory of the project
-ROOT_DIR = os.getcwd()
-# Import Mask RCNN
-sys.path.append(ROOT_DIR) # To find local version of the library
 from mrcnn import utils
 import mrcnn.model as modellib
 from mrcnn import visualize
-# Import COCO config
-# sys.path.append(os.path.join(ROOT_DIR, “samples/coco/”)) # To find local version
-# from samples.coco import coco
-# Directory to save logs and trained model
-MODEL_DIR = os.path.join(ROOT_DIR, "model", "mask_RCNN")
-# Local path to trained weights file
-COCO_MODEL_PATH = os.path.join(MODEL_DIR ,"shapes20220723T1219", "mask_rcnn_shapes_0010.h5")
-# Download COCO trained weights from Releases if needed
-if not os.path.exists(COCO_MODEL_PATH):
-    utils.download_trained_weights(COCO_MODEL_PATH)
-#print(“cuiwei***********************”)
-# Directory of images to run detection on
-IMAGE_DIR = os.path.join(ROOT_DIR, "images")
-INPUT_DIR = os.path.join(IMAGE_DIR, "real_frames")
-
 
 class ShapesConfig(Config):
 
@@ -68,27 +49,48 @@ class InferenceConfig(ShapesConfig):
     GPU_COUNT = 1
     IMAGES_PER_GPU = 1
 
+def detect_animal(model_folder = "shapes20220723T1219", model_name = "mask_rcnn_shapes_0010.h5"):
+    # Root directory of the project
+    ROOT_DIR = os.getcwd()
+    # Import Mask RCNN
+    sys.path.append(ROOT_DIR) # To find local version of the library
 
+    # Import COCO config
+    # sys.path.append(os.path.join(ROOT_DIR, “samples/coco/”)) # To find local version
+    # from samples.coco import coco
+    # Directory to save logs and trained model
+    MODEL_DIR = os.path.join(ROOT_DIR, "model", "mask_RCNN")
+    # Local path to trained weights file
+    COCO_MODEL_PATH = os.path.join(MODEL_DIR ,model_folder,model_name)
+    # Download COCO trained weights from Releases if needed
+    if not os.path.exists(COCO_MODEL_PATH):
+        utils.download_trained_weights(COCO_MODEL_PATH)
+    #print(“cuiwei***********************”)
+    # Directory of images to run detection on
+    IMAGE_DIR = os.path.join(ROOT_DIR, "images")
+    INPUT_DIR = os.path.join(IMAGE_DIR, "real_frames")
 
-config = InferenceConfig()
-model = modellib.MaskRCNN(mode="inference", model_dir=MODEL_DIR, config=config)
-# Create model object in inference mode.
-model = modellib.MaskRCNN(mode="inference", model_dir=MODEL_DIR, config=config)
-# Load weights trained on MS-COCO
-model.load_weights(COCO_MODEL_PATH, by_name=True)
-# COCO Class names
-# Index of the class in the list is its ID. For example, to get ID of
-# the teddy bear class, use: class_names.index(‘teddy bear’)
-class_names = ['BG', 'hamburger', 'french_fries', 'friedfood', 'dog', 'cat', 'animal_eye']
-files = os.listdir(INPUT_DIR)
-for file_name in files:
-    file = os.path.join(INPUT_DIR, file_name)
-    image = skimage.io.imread(file)
-    # Run detection
-    results = model.detect([image], verbose=1)
-    # Visualize results
-    # print("shijian",(b-a).seconds)
-    r = results[0]
-    visualize.display_instances(image, r['rois'], r['masks'], r['class_ids'],
-    class_names, scores=r['scores'], output_dir=IMAGE_DIR, file_name=file_name)
+    config = InferenceConfig()
+    model = modellib.MaskRCNN(mode="inference", model_dir=MODEL_DIR, config=config)
+    # Create model object in inference mode.
+    model = modellib.MaskRCNN(mode="inference", model_dir=MODEL_DIR, config=config)
+    # Load weights trained on MS-COCO
+    model.load_weights(COCO_MODEL_PATH, by_name=True)
+    # COCO Class names
+    # Index of the class in the list is its ID. For example, to get ID of
+    # the teddy bear class, use: class_names.index(‘teddy bear’)
+    class_names = ['BG', 'hamburger', 'french_fries', 'friedfood', 'dog', 'cat', 'animal_eye']
+    files = os.listdir(INPUT_DIR)
+    for file_name in files:
+        file = os.path.join(INPUT_DIR, file_name)
+        image = skimage.io.imread(file)
+        # Run detection
+        results = model.detect([image], verbose=1)
+        # Visualize results
+        # print("shijian",(b-a).seconds)
+        r = results[0]
+        visualize.display_instances(image, r['rois'], r['masks'], r['class_ids'],
+        class_names, scores=r['scores'], output_dir=IMAGE_DIR, file_name=file_name)
 
+if __name__=='__main__':
+    detect_animal(model_folder = "shapes20220723T1219", model_name = "mask_rcnn_shapes_0010.h5")

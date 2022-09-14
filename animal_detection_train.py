@@ -20,19 +20,6 @@ import os
 import warnings
 warnings.filterwarnings("ignore")
 
-
-# Root directory of the project
-ROOT_DIR = os.getcwd()
-# Directory to save logs and trained model
-MODEL_DIR = os.path.join(ROOT_DIR, "model", "mask_RCNN")
-iter_num = 0
-# Local path to trained weights file
-COCO_MODEL_PATH = os.path.join(ROOT_DIR, "model", "mask_RCNN", "mask_rcnn_coco.h5")
-# Download COCO trained weights from Releases if needed
-if not os.path.exists(COCO_MODEL_PATH):
-    utils.download_trained_weights(COCO_MODEL_PATH)
-
-
 class ShapesConfig(Config):
     # Give the configuration a recognizable name
     NAME = "shapes"
@@ -52,9 +39,6 @@ class ShapesConfig(Config):
     # use small validation steps since the epoch is small
     VALIDATION_STEPS = 50
 
-
-config = ShapesConfig()
-config.display()
 
 
 class DrugDataset(utils.Dataset):
@@ -134,36 +118,55 @@ class DrugDataset(utils.Dataset):
         return ax
 
 
-# 基礎設置
-dataset_root_path = "dataset/mask_RCNN/"  # 設定自己的位置
-img_floder = dataset_root_path + "pic"
-mask_floder = dataset_root_path + "cv2_mask"
-imglist = os.listdir(img_floder)
-count = len(imglist)
-# train與val數據集準備
-print('preparing dataset')
-dataset_train = DrugDataset()
-dataset_train.load_shapes(count, img_floder, mask_floder, imglist, dataset_root_path)
-dataset_train.prepare()
-dataset_val = DrugDataset()
-dataset_val.load_shapes(count, img_floder, mask_floder, imglist, dataset_root_path)
-dataset_val.prepare()
-print('preparing model')
-# Create model in training mode
-model = modellib.MaskRCNN(mode="training", config=config, model_dir=MODEL_DIR)
-# Which weights to start with?
-init_with = "coco"
-if init_with == "imagenet":
 
-    model.load_weights(model.get_imagenet_weights(), by_name=True)
-elif init_with == "coco":
-    model.load_weights(COCO_MODEL_PATH, by_name=True,
-                       exclude=["mrcnn_class_logits", "mrcnn_bbox_fc", "mrcnn_bbox", "mrcnn_mask"])
-# Load the last model you trained and continue training
-elif init_with == "last":
-    model.load_weights(model.find_last()[1], by_name=True)
-# Train the head branches
-print('start training')
-model.train(dataset_train, dataset_val, learning_rate=config.LEARNING_RATE, epochs=10, layers='heads')
-# Fine tune all layers
-model.train(dataset_train, dataset_val, learning_rate=config.LEARNING_RATE / 10, epochs=10, layers="all")
+def train():
+    # Root directory of the project
+    ROOT_DIR = os.getcwd()
+    # Directory to save logs and trained model
+    MODEL_DIR = os.path.join(ROOT_DIR, "model", "mask_RCNN")
+    iter_num = 0
+    # Local path to trained weights file
+    COCO_MODEL_PATH = os.path.join(ROOT_DIR, "model", "mask_RCNN", "mask_rcnn_coco.h5")
+    # Download COCO trained weights from Releases if needed
+    if not os.path.exists(COCO_MODEL_PATH):
+        utils.download_trained_weights(COCO_MODEL_PATH)
+
+    config = ShapesConfig()
+    config.display()
+
+    # 基礎設置
+    dataset_root_path = "dataset/mask_RCNN/"  # 設定自己的位置
+    img_floder = dataset_root_path + "pic"
+    mask_floder = dataset_root_path + "cv2_mask"
+    imglist = os.listdir(img_floder)
+    count = len(imglist)
+    # train與val數據集準備
+    print('preparing dataset')
+    dataset_train = DrugDataset()
+    dataset_train.load_shapes(count, img_floder, mask_floder, imglist, dataset_root_path)
+    dataset_train.prepare()
+    dataset_val = DrugDataset()
+    dataset_val.load_shapes(count, img_floder, mask_floder, imglist, dataset_root_path)
+    dataset_val.prepare()
+    print('preparing model')
+    # Create model in training mode
+    model = modellib.MaskRCNN(mode="training", config=config, model_dir=MODEL_DIR)
+    # Which weights to start with?
+    init_with = "coco"
+    if init_with == "imagenet":
+
+        model.load_weights(model.get_imagenet_weights(), by_name=True)
+    elif init_with == "coco":
+        model.load_weights(COCO_MODEL_PATH, by_name=True,
+                        exclude=["mrcnn_class_logits", "mrcnn_bbox_fc", "mrcnn_bbox", "mrcnn_mask"])
+    # Load the last model you trained and continue training
+    elif init_with == "last":
+        model.load_weights(model.find_last()[1], by_name=True)
+    # Train the head branches
+    print('start training')
+    model.train(dataset_train, dataset_val, learning_rate=config.LEARNING_RATE, epochs=10, layers='heads')
+    # Fine tune all layers
+    model.train(dataset_train, dataset_val, learning_rate=config.LEARNING_RATE / 10, epochs=10, layers="all")
+
+if __name__=='__main__':
+    train()

@@ -13,7 +13,51 @@
             "justMyCode": true
         },
         {
-            "name": "train",
+            "name": "test",
+            "type": "python",
+            "request": "launch",
+            "program": "test.py",
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
+            "name": "train_animal_detection_model",
+            "type": "python",
+            "request": "launch",
+            "program": "train_animal_detection_model.py",
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
+            "name": "cartoonize_background",
+            "type": "python",
+            "request": "launch",
+            "program": "cartoonize_test.py",
+            "console": "integratedTerminal",
+            "justMyCode": true, 
+            "args": 
+            [
+                "--checkpoint_dir", "./model/animeGAN/cartoonize_Hayao_weight", 
+                "--test_dir", "./images/real_background_image", 
+                "--save_dir", "./images/anime_background_image"
+            ]
+        },
+        {
+            "name": "cartoonize_animal",
+            "type": "python",
+            "request": "launch",
+            "program": "cartoonize_test.py",
+            "console": "integratedTerminal",
+            "justMyCode": true, 
+            "args": 
+            [
+                "--checkpoint_dir", "./model/animeGAN/cartoonize_Shinkai_weight",
+                "--test_dir", "./images/real_animal_image", 
+                "--save_dir", "./images/anime_animal_image"
+            ]
+        },
+        {
+            "name": "train_animal_detection_model",
             "type": "python",
             "request": "launch",
             "program": "animal_detection_train.py",
@@ -21,7 +65,7 @@
             "justMyCode": true
         },
         {
-            "name": "test",
+            "name": "detect_animal",
             "type": "python",
             "request": "launch",
             "program": "animal_detection_test.py",
