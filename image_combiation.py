@@ -11,7 +11,7 @@ def merge(animal, background):
     res = animal.copy()
     for row in range(r):
         for col in range(c):
-            if (animalB[row,col] >= 250) and (animalG[row,col] >= 250) and (animalR[row,col]) >= 250:
+            if (animalB[row,col] >= 200) and (animalG[row,col] >= 200) and (animalR[row,col]) >= 200:
                 res[row,col,:] = background[row,col,:]
 
     resBlur = cv2.medianBlur(res, 5)
