@@ -30,9 +30,8 @@ def stats_graph(graph):
     # params = tf.profiler.profile(graph, options=tf.profiler.ProfileOptionBuilder.trainable_variables_parameter())
     print('FLOPs: {}'.format(flops.total_float_ops))
 
-def test(checkpoint_dir, style_name, test_dir, if_adjust_brightness, img_size=[256,256]):
+def test(checkpoint_dir, result_dir, test_dir, if_adjust_brightness, img_size=[256,256]):
     # tf.reset_default_graph()
-    result_dir = './'+style_name
     check_folder(result_dir)
     test_files = glob('{}/*.*'.format(test_dir))
     
