@@ -18,7 +18,12 @@
             "request": "launch",
             "program": "test.py",
             "console": "integratedTerminal",
-            "justMyCode": true
+            "justMyCode": true,
+            "args": 
+            [
+                "--input_video", "./sample/test_video.mp4", 
+                "--output_video", "./sample/test_output.mp4"
+            ]
         },
         {
             "name": "train_animal_detection_model",
