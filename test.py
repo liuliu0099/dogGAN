@@ -16,7 +16,7 @@ def parse_args():
     return parser.parse_args()
 
 def main(args):
-    fps = 30
+    fps = 10
     
     model_folder = args.model_folder
     model_name = args.model_name
