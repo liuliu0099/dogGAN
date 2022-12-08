@@ -25,7 +25,8 @@ def get_frames(output_folder, fps, source_file = ''):
                 return
             if(capture % fps == 0): #每隔幾幀進行擷取
                 #videoImages.append(videoFrame)
-                cv2.imwrite(output_folder+"frame"+str(i)+".png", videoFrame)
+                # cv2.imwrite(output_folder+"frame"+str(i)+".png", videoFrame)
+                cv2.imwrite("{}frame{:010}.png".format(output_folder,i),videoFrame)
                 i += 1
             capture += 1
             if cv2.waitKey(1) & 0xFF == ord('q'):
@@ -35,7 +36,8 @@ def get_frames(output_folder, fps, source_file = ''):
             rval, videoFrame = vc.read()
             if(capture % fps == 0): #capture pic every (fps) frame 
                 #videoImages.append(videoFrame) 
-                cv2.imwrite(output_folder+"frame"+str(i)+".png", videoFrame)
+                # cv2.imwrite(output_folder+"frame"+str(i)+".png", videoFrame)
+                cv2.imwrite("{}frame{:010}.png".format(output_folder,i),videoFrame)
                 i += 1
             capture += 1
 

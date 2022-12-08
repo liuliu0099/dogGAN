@@ -6,7 +6,7 @@ import functools
 #read all pngs and jpgs in the file
 def readFiles(imageFilePath):
     imageNames = [file for  file in os.listdir(imageFilePath) if os.path.splitext(file)[-1] in [".png", ".jpg"]]
-    imageNamesSorted = sorted(imageNames, key=functools.cmp_to_key(compare))
+    imageNamesSorted = sorted(imageNames)
     return imageNamesSorted
 
 def createVideo(images, size, outputFPS, outPath):
@@ -31,7 +31,7 @@ def frames2video(image_folder, output_file, fps):
 
 
 if __name__ == '__main__':
-    outputFPS = 6
-    imageFilePath = "images"
-    outPath = "animal.mp4"
+    outputFPS = 20
+    imageFilePath = "./images/anime_frames/"
+    outPath = "./sample/animal.mp4"
     frames2video(image_folder=imageFilePath, output_file=outPath, fps=outputFPS)
